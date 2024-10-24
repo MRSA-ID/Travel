@@ -1,50 +1,112 @@
-# React + TypeScript + Vite
+## Prerequisites
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- Node.js (version 20.14.0 or higher)
+- PNPM (version 8.6.2 or higher)
+- npm (version 10.7.0 or higher) (backup)
+- Git (optional, for version control)
 
-Currently, two official plugins are available:
+## Basic Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Clone repository (if using existing project):
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+```bash
+git clone https://github.com/username/project-name.git
+cd project-name
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Install dependencies:
 
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: "18.3" } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs["jsx-runtime"].rules,
-  },
-});
+```bash
+pnpm install
 ```
+
+3. Create environment file:
+
+- Copy `.env.example` to `.env`
+- Update environment variables as needed
+
+```bash
+cp .env.example .env
+```
+
+## Running the Application
+
+1. Development mode:
+
+```bash
+pnpm run dev
+```
+
+- Access the application at http://127.0.0.1:3000/
+
+2. Production build:
+
+```bash
+pnpm run build
+```
+
+## Required Dependencies
+
+The following packages are required for the application:
+
+### Core Dependencies
+
+- react: ^18.3.1
+- react-chartjs-2: ^5.2.0
+- react-router-dom: ^6.27.0
+- axios: ^1.7.7
+- react-redux: ^9.1.2
+- chart.js: ^4.4.5
+- @headlessui/react: ^2.1.10
+
+Install using:
+
+```bash
+npm install react-router-dom axios redux @material-ui/core
+```
+
+### Development Dependencies
+
+- eslint
+- prettier
+- jest
+
+Install using:
+
+```bash
+npm install --save-dev eslint prettier jest
+```
+
+## Configuration
+
+1. Update API endpoint in `.env`:
+
+```
+REACT_APP_API_URL=https://api.example.com
+```
+
+2. Configure authentication (if required):
+
+- Update auth configuration in `src/config/auth.js`
+- Set up authentication tokens in local storage
+
+## Common Issues and Solutions
+
+1. Node version mismatch:
+
+```bash
+nvm use 14
+```
+
+2. Port already in use:
+
+- Stop existing process or change port in `.env`:
+
+```
+PORT=3001
+```
+
+## Additional Resources
+
+- Official React Documentation: https://reactjs.org/docs
+- Support Contact: support@example.com
