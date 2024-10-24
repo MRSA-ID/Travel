@@ -20,15 +20,6 @@ cd project-name
 pnpm install
 ```
 
-3. Create environment file:
-
-- Copy `.env.example` to `.env`
-- Update environment variables as needed
-
-```bash
-cp .env.example .env
-```
-
 ## Running the Application
 
 1. Development mode:
@@ -58,55 +49,3 @@ The following packages are required for the application:
 - react-redux: ^9.1.2
 - chart.js: ^4.4.5
 - @headlessui/react: ^2.1.10
-
-Install using:
-
-```bash
-npm install react-router-dom axios redux @material-ui/core
-```
-
-### Development Dependencies
-
-- eslint
-- prettier
-- jest
-
-Install using:
-
-```bash
-npm install --save-dev eslint prettier jest
-```
-
-## Configuration
-
-1. Update API endpoint in `.env`:
-
-```
-REACT_APP_API_URL=https://api.example.com
-```
-
-2. Configure authentication (if required):
-
-- Update auth configuration in `src/config/auth.js`
-- Set up authentication tokens in local storage
-
-## Common Issues and Solutions
-
-1. Node version mismatch:
-
-```bash
-nvm use 14
-```
-
-2. Port already in use:
-
-- Stop existing process or change port in `.env`:
-
-```
-PORT=3001
-```
-
-## Additional Resources
-
-- Official React Documentation: https://reactjs.org/docs
-- Support Contact: support@example.com
