@@ -3,7 +3,6 @@
 - Node.js (version 20.14.0 or higher)
 - PNPM (version 8.6.2 or higher)
 - npm (version 10.7.0 or higher) (backup)
-- Git (optional, for version control)
 
 ## Basic Setup
 
