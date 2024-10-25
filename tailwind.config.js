@@ -11,9 +11,10 @@ export default {
 				},
 			},
 			fontFamily: {
-				sans: ["Inter var", "sans-serif"],
+				Syne: ["Syne", "sans-serif"],
+				Kanit: ["Kanit", "sans-serif"],
 			},
 		},
 	},
-	plugins: [],
+	plugins: [require("@headlessui/tailwindcss")],
 };
