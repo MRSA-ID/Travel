@@ -84,7 +84,7 @@ const DashboardPage = () => {
                     fill="#8884d8"
                     label
                   >
-                    {categoryData.map((entry, index) => (
+                    {categoryData.map((_, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}
