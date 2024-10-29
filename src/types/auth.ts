@@ -5,7 +5,7 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface LoginResponse {
+export interface AuthResponse {
   jwt: string;
   user: Users;
 }
@@ -15,3 +15,8 @@ export interface RegisterRequest {
   username: string;
   password: string;
 }
+
+export type GenericErrorResponse = {
+  message: string;
+  errors: Record<string, string> | null;
+};

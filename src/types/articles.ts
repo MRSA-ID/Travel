@@ -1,6 +1,13 @@
 import { Users } from "@/types/users";
 import { Category } from "@/types/category";
 
+export interface RequestArticle {
+  title: string;
+  description: string;
+  cover_image_url: string;
+  category: number | null;
+}
+
 export interface ArticlesList {
   id: number;
   documentId: string;
@@ -27,9 +34,12 @@ export interface Article {
   updatedAt: string;
   publishedAt: string;
   locale: null;
+  comments?: CommentsType;
+  category: Category;
+  user?: Users;
 }
 
-type CommentsType = CommentType[];
+export type CommentsType = CommentType[] | [];
 
 type CommentType = {
   id: number;
@@ -39,4 +49,5 @@ type CommentType = {
   updatedAt: string;
   publishedAt: string;
   locale: null;
+  user?: Users;
 };
