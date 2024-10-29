@@ -32,6 +32,7 @@ const CommentModal: FC<{
 }> = ({ isOpen, onClose, documentId, form, articleCover }) => {
   const [previewImage, setPreview] = useState("");
   const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((state) => state.comment);
   const { items } = useAppSelector((state) => state.articles);
   const { user } = useAppSelector((state) => state.auth);
 
@@ -220,7 +221,7 @@ const CommentModal: FC<{
                     className="absolute inset-y-3 bottom-0 right-0 flex items-center pl-3 pr-4 bg-black/20 rounded-r-xl"
                     onClick={handleSubmit}
                   >
-                    {isLoadingComment ? (
+                    {isLoading ? (
                       <div className="flex items-center justify-center">
                         <div className="size-4 animate-spin rounded-full border-4 border-gray-200 border-t-gray-800" />
                       </div>
