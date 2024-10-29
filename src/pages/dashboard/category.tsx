@@ -110,12 +110,12 @@ const CategoryPage = () => {
 
   const loadCategory = async () => {
     const params = getParams(paginationPage);
-    await dispatch(getCategory(params));
+    await dispatch(getCategory({ filters: params }));
   };
 
   const loadCategoryDetail = async (id: string) => {
     try {
-      await dispatch(getCategory());
+      await dispatch(getCategory({}));
       const category = await dispatch(getCategoryDetail(id)).unwrap();
       form.setFormData({
         name: category.name,

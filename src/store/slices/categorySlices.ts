@@ -56,7 +56,10 @@ const initialState: CategoryState = {
 
 export const getCategory = createAsyncThunk(
   "category/getCategory",
-  async (filters?: ParamsCategory, { rejectWithValue }) => {
+  async (
+    { filters }: { filters?: ParamsCategory } = {},
+    { rejectWithValue },
+  ) => {
     try {
       const { data: response } = await getList(filters);
       const { data, meta } = response;

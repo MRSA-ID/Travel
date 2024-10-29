@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "@/pages/auth/login";
-import Landing from "@/pages/Landing";
 import Dashboard from "@/pages/dashboard";
 import Register from "@/pages/auth/register";
 import PublicOnlyRoute from "@/components/PublicOnlyRoute";
@@ -12,6 +11,7 @@ import Articles from "@/pages/dashboard/articles";
 import CategoryPage from "@/pages/dashboard/category";
 import CommentsPage from "@/pages/dashboard/comments";
 import ProfilePage from "@/pages/dashboard/profile";
+import Landing from "@/pages/landing";
 
 export const router = createBrowserRouter([
   {

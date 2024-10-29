@@ -85,7 +85,7 @@ const Articles = () => {
   function handleOpenModal(id?: string) {
     if (id) setDocumentId(id);
     setIsModalOpen(true);
-    dispatch(getCategory());
+    dispatch(getCategory({}));
   }
   function handleCloseModal() {
     setIsModalOpen(false);
@@ -121,7 +121,7 @@ const Articles = () => {
   const loadArticleDetailAndCategory = async (id: string) => {
     const params = getParams(paginationPage, "Article", search);
     try {
-      await dispatch(getCategory());
+      await dispatch(getCategory({}));
       const article = await dispatch(
         getArticleDetail({ dokId: id, param: params }),
       ).unwrap();
