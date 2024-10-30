@@ -21,7 +21,6 @@ export default defineConfig(({ mode }) => {
 					manualChunks: {
 						"react-vendor": ["react", "react-dom"],
 						"redux-vendor": ["@reduxjs/toolkit", "react-redux"],
-						"chart-vendor": ["chart.js", "react-chartjs-2"],
 					},
 				},
 			},
