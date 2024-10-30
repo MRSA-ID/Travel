@@ -171,7 +171,7 @@ const RegisterForm = () => {
               </Label>
             </Field>
             <Link
-              to={"/login"}
+              to={"/auth/login"}
               className="mt-5 text-sm/6 w-full inline-block text-black/50 cursor-pointer text-center"
             >
               Already, Have account

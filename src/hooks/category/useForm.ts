@@ -1,6 +1,8 @@
 import { ChangeEvent, useState } from "react";
 import { PaginationStateType } from "../article/useForm";
 import { ErrorResponse } from "@/types";
+import { useAppDispatch, useAppSelector } from "../redux-hooks";
+import { getCategory } from "@/store/slices/categorySlices";
 
 export interface CategoryFormData {
   name: string;
@@ -27,12 +29,30 @@ const useCategoryForm = () => {
     useState<CategoryFormData>(INITIAL_FORM_STATE);
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const { total, pageSize, pageCount, items, isLoading } = useAppSelector(
+    (state) => state.category,
+  );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
+  };
+
+  const loadCategory = async () => {
+    const paramsWithoutPagination = {};
+    const paramsWithPagination = {
+      "pagination[pageSize]": pageSize,
+    };
+
+    await dispatch(
+      getCategory({
+        filters: pageCount > 1 ? paramsWithPagination : paramsWithoutPagination,
+        currentPath: "dashboard",
+      }),
+    );
   };
 
   const resetForm = () => {
@@ -43,12 +63,18 @@ const useCategoryForm = () => {
 
   return {
     formData,
+    total,
+    pageSize,
+    pageCount,
+    items,
+    isLoading,
     setFormData,
     error,
     setError,
     errorMessage,
     setErrorMessage,
     handleChange,
+    loadCategory,
     resetForm,
   };
 };

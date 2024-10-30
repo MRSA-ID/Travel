@@ -113,18 +113,18 @@ const CommentsPage = () => {
 
   const loadComments = async () => {
     const params = getParams(paginationPage, "Comments");
-    await dispatch(getComments(params));
+    await dispatch(getComments({ filters: params }));
   };
 
   const loadArticles = async () => {
     const params = getParams(paginationPage, "Article");
-    await dispatch(getArticles(params));
+    await dispatch(getArticles({ filters: params }));
   };
 
   const loadCommentsDetail = async (id: string) => {
     const params = getParams(paginationPage, "Comments");
     try {
-      await dispatch(getComments(params));
+      await dispatch(getComments({ filters: params }));
       const category = await dispatch(
         getCommentsDetail({ dokId: id, param: params }),
       ).unwrap();

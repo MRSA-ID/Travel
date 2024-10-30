@@ -74,6 +74,7 @@ const CommentModal: FC<{
   }
 
   function handleClose() {
+    form.handleArticleSelect(null);
     setPreview("");
     onClose();
   }
@@ -201,6 +202,7 @@ const CommentModal: FC<{
                   backgroundPosition: "center",
                 }}
               />
+              {/* input sent message */}
               <div className="flex flex-col w-full items-start justify-start">
                 <Label htmlFor="content" className="text-sm/6 font-medium">
                   {user?.username}
@@ -231,6 +233,7 @@ const CommentModal: FC<{
                   </Button>
                 </div>
               </div>
+              {/* ajhir input sent message */}
             </Field>
           </form>
         </div>

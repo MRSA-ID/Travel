@@ -57,7 +57,10 @@ const initialState: CategoryState = {
 export const getCategory = createAsyncThunk(
   "category/getCategory",
   async (
-    { filters }: { filters?: ParamsCategory } = {},
+    {
+      filters,
+      currentPath,
+    }: { filters?: ParamsCategory; currentPath?: string } = {},
     { rejectWithValue },
   ) => {
     try {
@@ -67,6 +70,7 @@ export const getCategory = createAsyncThunk(
       return {
         category: data,
         pagination: meta.pagination,
+        path: currentPath,
       };
     } catch (error: any) {
       // Mengambil error response dari API
@@ -172,6 +176,14 @@ const categorySlices = createSlice({
         state.isLoading = false;
         state.items = action.payload.category;
         state.paginationData = action.payload.pagination;
+        state.page = action.payload.pagination.page;
+        state.pageCount = action.payload.pagination.pageCount;
+        state.pageSize = action.payload.path
+          ? action.payload.pagination.pageCount > 1
+            ? action.payload.pagination.pageSize
+            : action.payload.pagination.total
+          : action.payload.pagination.pageSize;
+        state.total = action.payload.pagination.total;
       })
       .addCase(getCategory.rejected, (state) => {
         state.isLoading = false;

@@ -1,17 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlices";
 import articleReducer from "./slices/articleSlices";
-import categorySlices from "./slices/categorySlices";
-import commentSlices from "./slices/commentSlices";
-import uploadSlices from "./slices/uploadSlices";
+import categoryReducer from "./slices/categorySlices";
+import commentReducer from "./slices/commentSlices";
+import uploadReducer from "./slices/uploadSlices";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     articles: articleReducer,
-    category: categorySlices,
-    comment: commentSlices,
-    upload: uploadSlices,
+    category: categoryReducer,
+    comment: commentReducer,
+    upload: uploadReducer,
   },
 });
 

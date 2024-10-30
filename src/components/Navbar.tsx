@@ -52,7 +52,7 @@ const Navbar = () => {
                     </div>
                     <Link
                       className="block mt-2 font-Syne text-center bg-red-100 rounded-lg py-2.5 px-5 transition hover:bg-red-200"
-                      to={"/logout"}
+                      to={"/auth/logout"}
                     >
                       <p className="text-red-400 font-medium uppercase">
                         Log Out
@@ -65,7 +65,7 @@ const Navbar = () => {
           </div>
         ) : (
           <Link
-            to={"/login"}
+            to={"/auth/login"}
             className="font-Syne font-medium border bg-white italic border-gray-400 px-5 py-1 hover:bg-black hover:text-white transition-colors duration-300 rounded-xl"
           >
             Login

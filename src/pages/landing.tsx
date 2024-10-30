@@ -55,7 +55,12 @@ const Landing = () => {
 
   const loadArticles = async () => {
     const params = getParams(INITIAL_PAGINATION_STATE, "Article", search);
-    await dispatch(getArticles(params));
+    await dispatch(getArticles({ filters: params }));
+  };
+
+  const loadArticleDetail = async (articleId: string) => {
+    const params = getParams(INITIAL_PAGINATION_STATE, "Article", search);
+    dispatch(getArticleDetail({ dokId: articleId, param: params }));
   };
 
   const handleCardClick = async (articleId: string) => {
@@ -73,7 +78,7 @@ const Landing = () => {
       {!user ? (
         <div className="barrier bg-gradient-to-t from-white via-white to-transparent w-full h-[200px] absolute bottom-0 z-30 flex justify-center items-center">
           <Link
-            to={"/login"}
+            to={"/auth/login"}
             className="font-Syne font-medium border bg-black italic border-gray-400 px-5 py-1 hover:bg-white hover:text-black transition-colors duration-300 rounded-xl"
           >
             Log in to Explore More Content
@@ -100,23 +105,6 @@ const Landing = () => {
                     <div className="max-w-36 w-full mt-3 md:mt-0">
                       <SkeletonSelect />
                     </div>
-                  </div>
-                </div>
-              ) : articles.length === 0 ? (
-                <div className="w-full">
-                  {/* component search */}
-                  <div className="relative w-full mb-3">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                      <MagnifyingGlassIcon className="size-6 fill-black/35" />
-                    </div>
-                    <Input
-                      id="search"
-                      name="search"
-                      type="text"
-                      placeholder="Cari Nama Article"
-                      className={`mt-3 block w-full rounded-full border-none bg-black/15 text-black focus:ring-2 ring-black/25 p-3 pl-11 text-sm/6 outline-none cursor-not-allowed`}
-                      disabled
-                    />
                   </div>
                 </div>
               ) : (
@@ -194,6 +182,8 @@ const Landing = () => {
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             article={selectedArticle}
+            onLoadArticle={loadArticleDetail}
+            onLoadArticles={loadArticles}
             isLoading={isLoadingDetail}
             error={errorDetailArticle}
           />

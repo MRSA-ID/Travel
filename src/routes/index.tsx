@@ -15,7 +15,7 @@ import Landing from "@/pages/landing";
 
 export const router = createBrowserRouter([
   {
-    path: "/login",
+    path: "/auth/login",
     element: (
       <PublicOnlyRoute>
         <Login />
@@ -23,7 +23,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/register",
+    path: "/auth/register",
     element: (
       <PublicOnlyRoute>
         <Register />
@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/logout",
+    path: "/auth/logout",
     element: (
       <PrivateOnlyRoute>
         <Logout />

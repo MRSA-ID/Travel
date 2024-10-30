@@ -115,7 +115,7 @@ const Articles = () => {
 
   const loadArticles = async () => {
     const params = getParams(paginationPage, "Article", search);
-    await dispatch(getArticles(params));
+    await dispatch(getArticles({ filters: params }));
   };
 
   const loadArticleDetailAndCategory = async (id: string) => {

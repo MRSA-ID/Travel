@@ -41,7 +41,7 @@ export interface Article {
 
 export type CommentsType = CommentType[] | [];
 
-type CommentType = {
+export type CommentType = {
   id: number;
   documentId: string;
   content: string;

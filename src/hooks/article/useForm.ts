@@ -1,5 +1,7 @@
 import { ErrorResponse } from "@/types";
 import { ChangeEvent, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../redux-hooks";
+import { getArticles } from "@/store/slices/articleSlices";
 
 export interface ArticleFormData {
   title: string;
@@ -40,6 +42,10 @@ const useArticleForm = () => {
   const [formData, setFormData] = useState<ArticleFormData>(INITIAL_FORM_STATE);
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const { total, pageSize, pageCount, items, isLoading } = useAppSelector(
+    (state) => state.articles,
+  );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -55,6 +61,27 @@ const useArticleForm = () => {
     }));
   };
 
+  const loadArticles = async () => {
+    const paramsWithoutPagination = {
+      "populate[comments][populate][user]": "*",
+      "populate[user]": "*",
+      "populate[category]": "*",
+    };
+    const paramsWithPagination = {
+      "pagination[pageSize]": pageSize,
+      "populate[comments][populate][user]": "*",
+      "populate[user]": "*",
+      "populate[category]": "*",
+    };
+
+    await dispatch(
+      getArticles({
+        filters: pageCount > 1 ? paramsWithPagination : paramsWithoutPagination,
+        currentPath: "dashboard",
+      }),
+    );
+  };
+
   const resetForm = () => {
     setFormData(INITIAL_FORM_STATE);
     setError(null);
@@ -63,6 +90,10 @@ const useArticleForm = () => {
 
   return {
     formData,
+    pageSize,
+    total,
+    items,
+    isLoading,
     setFormData,
     error,
     setError,
@@ -70,6 +101,7 @@ const useArticleForm = () => {
     setErrorMessage,
     handleChange,
     handleChangeSelect,
+    loadArticles,
     resetForm,
   };
 };

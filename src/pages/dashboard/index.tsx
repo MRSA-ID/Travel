@@ -2,7 +2,11 @@ import StatsCard from "@/components/dashboard/StatsCard";
 import ArticleIcon from "@/components/icons/ArticleIcon";
 import CategoryIcon from "@/components/icons/CategoryIcon";
 import CommentIcon from "@/components/icons/CommentIcon";
-import { useEffect, useState } from "react";
+import useArticleForm from "@/hooks/article/useForm";
+import useCategoryForm from "@/hooks/category/useForm";
+import useCommentForm from "@/hooks/comments/useForm";
+import { ArticlesList } from "@/types/articles";
+import { useEffect, useMemo, useState } from "react";
 import {
   Legend,
   PieChart,
@@ -14,7 +18,9 @@ import {
 
 const DashboardPage = () => {
   const [dateNow, setDateNow] = useState<string | null>(null);
-
+  const article = useArticleForm();
+  const comment = useCommentForm();
+  const category = useCategoryForm();
   function updateDate() {
     const date = new Date();
     const options: Intl.DateTimeFormatOptions = {
@@ -24,18 +30,41 @@ const DashboardPage = () => {
     };
     setDateNow(date.toLocaleString("id-ID", options));
   }
-  const categoryData = [
-    { name: "Technology", articles: 40 },
-    { name: "Lifestyle", articles: 30 },
-    { name: "Business", articles: 20 },
-    { name: "Travel", articles: 10 },
-  ];
+
+  const chartData = useMemo(() => {
+    const categoryCount = (article.items as ArticlesList[]).reduce(
+      (acc, article) => {
+        const category = article.category?.name || "Uncategorized";
+        acc[category] = (acc[category] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+
+    return Object.entries(categoryCount).map(([name, value]) => ({
+      name,
+      value,
+    }));
+  }, [article.items]);
+
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
   useEffect(() => {
     return () => {
       updateDate();
     };
   }, [dateNow]);
+
+  useEffect(() => {
+    return () => {
+      article.loadArticles();
+      comment.loadComments();
+      category.loadCategory();
+    };
+  }, []);
+
+  const totalArticles = String(article.total);
+  const totalComments = String(comment.total);
+  const totalCategory = String(category.total);
 
   return (
     <>
@@ -51,17 +80,17 @@ const DashboardPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <StatsCard
             title="Total Articles"
-            value="2,419"
+            value={totalArticles}
             icon={<ArticleIcon className="w-6 h-6" />}
           />
           <StatsCard
             title="Comments"
-            value="2,419"
+            value={totalComments}
             icon={<CommentIcon className="w-6 h-6" />}
           />
           <StatsCard
             title="Categories"
-            value="2,419"
+            value={totalCategory}
             icon={<CategoryIcon className="w-6 h-6" />}
           />
         </div>
@@ -72,25 +101,27 @@ const DashboardPage = () => {
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Tooltip />
-                  <Legend />
                   <Pie
-                    data={categoryData}
-                    dataKey="articles"
-                    nameKey="name"
+                    data={chartData}
                     cx="50%"
                     cy="50%"
-                    outerRadius={80}
+                    labelLine={false}
+                    label={({ name, percent }) =>
+                      `${name} (${(percent * 100).toFixed(0)}%)`
+                    }
+                    outerRadius={150}
                     fill="#8884d8"
-                    label
+                    dataKey="value"
                   >
-                    {categoryData.map((_, index) => (
+                    {chartData.map((_, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}
                       />
                     ))}
                   </Pie>
+                  <Tooltip />
+                  <Legend />
                 </PieChart>
               </ResponsiveContainer>
             </div>

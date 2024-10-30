@@ -160,7 +160,7 @@ const LoginForm = () => {
               </Label>
             </Field>
             <Link
-              to={"/register"}
+              to={"/auth/register"}
               className="mt-5 text-sm/6 w-full inline-block text-black/50 cursor-pointer text-center"
             >
               Don't have an account? Sign up now to unlock all content!

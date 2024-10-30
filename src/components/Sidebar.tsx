@@ -145,7 +145,7 @@ const Sidebar = () => {
           </Link>
           <Link
             className="flex group items-center mt-2 font-Syne px-4 py-3 bg-red-100 rounded-lg transition hover:bg-red-200 truncate"
-            to={"/logout"}
+            to={"/auth/logout"}
           >
             <LogoutIcon
               className={`w-5 h-5 fill-red-400 group-hover:fill-red-600`}

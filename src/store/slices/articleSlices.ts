@@ -34,6 +34,11 @@ interface DocIdWithParam {
   param: ParamsArticle;
 }
 
+interface GetArticlePayload {
+  filters: ParamsArticle;
+  currentPath?: string;
+}
+
 export interface ParamsArticle {
   "pagination[page]"?: number;
   "pagination[pageSize]"?: number;
@@ -61,7 +66,7 @@ const initialState: ArticlesState = {
 
 export const getArticles = createAsyncThunk(
   "articles/getArticles",
-  async (filters: ParamsArticle, { rejectWithValue }) => {
+  async ({ filters, currentPath }: GetArticlePayload, { rejectWithValue }) => {
     try {
       const { data: response } = await getList(filters);
       const { data, meta } = response;
@@ -70,6 +75,7 @@ export const getArticles = createAsyncThunk(
         articles: data,
         pagination: meta.pagination,
         hasMore: data.length === 10,
+        path: currentPath,
       };
       // return { data, meta, hasMore: data.length === 10 };
     } catch (error: any) {
@@ -173,6 +179,9 @@ const articleSlice = createSlice({
     resetArticle: (state) => {
       state.item = null;
     },
+    setLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -184,7 +193,11 @@ const articleSlice = createSlice({
         state.paginationData = action.payload.pagination;
         state.page = action.payload.pagination.page;
         state.pageCount = action.payload.pagination.pageCount;
-        state.pageSize = action.payload.pagination.pageSize;
+        state.pageSize = action.payload.path
+          ? action.payload.pagination.pageCount > 1
+            ? action.payload.pagination.pageSize
+            : action.payload.pagination.total
+          : action.payload.pagination.pageSize;
         state.total = action.payload.pagination.total;
         state.items = action.payload.articles;
         // state.hasMore = action.payload.hasMore;
@@ -242,6 +255,6 @@ const articleSlice = createSlice({
   },
 });
 
-export const { resetArticles, setPage, setLimit, resetArticle } =
+export const { resetArticles, setPage, setLimit, resetArticle, setLoading } =
   articleSlice.actions;
 export default articleSlice.reducer;

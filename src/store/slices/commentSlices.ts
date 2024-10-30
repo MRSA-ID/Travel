@@ -48,6 +48,11 @@ const initialState: CommentState = {
   messageSuccess: "",
 };
 
+interface GetCommentsPayload {
+  filters: ParamsComments;
+  currentPath?: string;
+}
+
 export interface ParamsComments {
   "pagination[page]"?: number;
   "pagination[pageSize]"?: number;
@@ -58,7 +63,7 @@ export interface ParamsComments {
 
 export const getComments = createAsyncThunk(
   "comments/getComments",
-  async (filters: ParamsComments, { rejectWithValue }) => {
+  async ({ filters, currentPath }: GetCommentsPayload, { rejectWithValue }) => {
     try {
       const { data: response } = await getList(filters);
       const { data, meta } = response;
@@ -66,6 +71,7 @@ export const getComments = createAsyncThunk(
       return {
         comments: data,
         pagination: meta.pagination,
+        path: currentPath,
       };
     } catch (error: any) {
       // Mengambil error response dari API
@@ -171,6 +177,14 @@ const commentSlices = createSlice({
         state.isLoading = false;
         state.items = action.payload.comments;
         state.paginationData = action.payload.pagination;
+        state.page = action.payload.pagination.page;
+        state.pageCount = action.payload.pagination.pageCount;
+        state.pageSize = action.payload.path
+          ? action.payload.pagination.pageCount > 1
+            ? action.payload.pagination.total
+            : action.payload.pagination.pageSize
+          : action.payload.pagination.pageSize;
+        state.total = action.payload.pagination.total;
       })
       .addCase(getComments.rejected, (state) => {
         state.isLoading = false;
