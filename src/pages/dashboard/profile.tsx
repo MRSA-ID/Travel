@@ -5,6 +5,7 @@ import { useAppSelector } from "@/hooks/redux-hooks";
 import { formatTimestamp, getAvatarUrl } from "@/utils/helper";
 import { Field, Input, Label } from "@headlessui/react";
 import { MapPinIcon } from "@heroicons/react/16/solid";
+import { Helmet } from "react-helmet-async";
 
 const ProfilePage = () => {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -34,6 +35,9 @@ const ProfilePage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Dashboard - Profile | Article App Travel</title>
+      </Helmet>
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold leading-7">Profile</h1>

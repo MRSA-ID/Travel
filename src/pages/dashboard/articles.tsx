@@ -25,6 +25,7 @@ import { getParams } from "@/utils/helper";
 import useUpload from "@/hooks/useUpload";
 import { ErrorResponse, ErrorSetter, MessageSetter } from "@/types";
 import InputSearch from "@/components/InputSearch";
+import { Helmet } from "react-helmet-async";
 
 const Articles = () => {
   const [search, setSearch] = useState("");
@@ -150,6 +151,9 @@ const Articles = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Dashboard - Articles | Article App Travel</title>
+      </Helmet>
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold leading-7">Article</h1>

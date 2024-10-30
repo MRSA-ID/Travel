@@ -7,6 +7,7 @@ import useCategoryForm from "@/hooks/category/useForm";
 import useCommentForm from "@/hooks/comments/useForm";
 import { ArticlesList } from "@/types/articles";
 import { useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import {
   Legend,
   PieChart,
@@ -95,6 +96,9 @@ const DashboardPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Dashboard | Article App Travel</title>
+      </Helmet>
       <div>
         <h1 className="text-2xl font-bold leading-7">Dashbor</h1>
         <p className="mt-2 font-semibold text-neutral-500">

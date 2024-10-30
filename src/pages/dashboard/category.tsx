@@ -23,6 +23,7 @@ import {
 } from "@heroicons/react/16/solid";
 import DataTable from "@/components/DataTable";
 import CategoryModal from "@/components/dashboard/CategoryModal";
+import { Helmet } from "react-helmet-async";
 
 const CategoryPage = () => {
   const [search, setSearch] = useState("");
@@ -139,9 +140,12 @@ const CategoryPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Dashboard - Categories | Article App Travel</title>
+      </Helmet>
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold leading-7">Article</h1>
+          <h1 className="text-2xl font-bold leading-7">Categories</h1>
         </div>
         <div className="mt-6 rounded-lg bg-white p-6">
           <div className="flex flex-col items-center justify-start gap-4 lg:flex-row 2xl:gap-6">

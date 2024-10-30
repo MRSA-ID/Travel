@@ -23,6 +23,7 @@ import {
 import DataTable from "@/components/DataTable";
 import CommentModal from "@/components/dashboard/CommentModal";
 import { getArticles, resetArticles } from "@/store/slices/articleSlices";
+import { Helmet } from "react-helmet-async";
 
 const CommentsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -152,6 +153,9 @@ const CommentsPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Dashboard - Comments | Article App Travel</title>
+      </Helmet>
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold leading-7">Comments</h1>
