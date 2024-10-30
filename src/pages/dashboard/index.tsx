@@ -47,7 +47,34 @@ const DashboardPage = () => {
     }));
   }, [article.items]);
 
+  const chartDataComments = useMemo(() => {
+    const articleTitle = (article.items as ArticlesList[]).reduce(
+      (acc, article) => {
+        const title = article.title || "Not have title";
+        const comment = article.comments.length;
+        acc[title] = comment || 0;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+    return Object.entries(articleTitle).map(([name, value]) => ({
+      name,
+      value,
+    }));
+  }, [article.items]);
+
+  console.log("chartDataComments: ", chartDataComments);
+
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
+
+  const COLORSCOMMENT = [
+    "#23272b",
+    "#8884d8",
+    "#FFBB28",
+    "#FF8042",
+    "#8884d8",
+    "#00C49F",
+  ];
   useEffect(() => {
     return () => {
       updateDate();
@@ -84,21 +111,21 @@ const DashboardPage = () => {
             icon={<ArticleIcon className="w-6 h-6" />}
           />
           <StatsCard
-            title="Comments"
+            title="Total Comments"
             value={totalComments}
             icon={<CommentIcon className="w-6 h-6" />}
           />
           <StatsCard
-            title="Categories"
+            title="Total Categories"
             value={totalCategory}
             icon={<CategoryIcon className="w-6 h-6" />}
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white p-6 rounded-lg shadow-sm">
             <h2 className="text-lg font-semibold mb-4">Articles by Category</h2>
-            <div className="h-80">
+            <div className="h-96">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -117,6 +144,36 @@ const DashboardPage = () => {
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-sm">
+            <h2 className="text-lg font-semibold mb-4">Articles by Comments</h2>
+            <div className="h-96">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={chartDataComments}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) =>
+                      `${name} (${(percent * 100).toFixed(0)}%)`
+                    }
+                    outerRadius={150}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {chartDataComments.map((_, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORSCOMMENT[index % COLORS.length]}
                       />
                     ))}
                   </Pie>
