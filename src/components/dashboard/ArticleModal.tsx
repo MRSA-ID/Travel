@@ -42,7 +42,6 @@ const ArticleModal: FC<{
     err: any,
     setError: ErrorSetter,
     setErrorMessage: MessageSetter,
-    documentId?: string,
   ) {
     if (err.error) {
       const errorResponse = err.error as ErrorResponse;
@@ -50,17 +49,9 @@ const ArticleModal: FC<{
       switch (errorResponse.status) {
         case 400:
           setError(errorResponse);
-          toast.error(
-            documentId
-              ? "Data tidak valid untuk edit artikel"
-              : "Data tidak valid untuk membuat artikel",
-          );
           break;
         default:
           setError(errorResponse);
-          toast.error(
-            errorResponse.message || "Terjadi kesalahan yang tidak diketahui",
-          );
       }
     } else if (err.message) {
       setErrorMessage(err.message);
@@ -74,13 +65,22 @@ const ArticleModal: FC<{
     form.setError(null);
     try {
       if (documentId) {
-        await dispatch(
-          updateArticle({ dokId: documentId, form: form.formData }),
-        ).unwrap();
-        toast.success("Berhasil Edit Artikel");
+        await toast.promise(
+          dispatch(
+            updateArticle({ dokId: documentId, form: form.formData }),
+          ).unwrap(),
+          {
+            loading: "...",
+            success: "Success Update",
+            error: "Failed Update",
+          },
+        );
       } else {
-        await dispatch(createArticle(form.formData)).unwrap();
-        toast.success("Berhasil Membuat Artikel");
+        await toast.promise(dispatch(createArticle(form.formData)).unwrap(), {
+          loading: "...",
+          success: "Success Save",
+          error: "Failed Save",
+        });
       }
       form.resetForm();
       onClose();

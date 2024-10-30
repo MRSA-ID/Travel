@@ -31,7 +31,6 @@ const CategoryModal: FC<{
     err: any,
     setError: ErrorSetter,
     setErrorMessage: MessageSetter,
-    documentId?: string,
   ) {
     if (err.error) {
       const errorResponse = err.error as ErrorResponse;
@@ -39,21 +38,12 @@ const CategoryModal: FC<{
       switch (errorResponse.status) {
         case 400:
           setError(errorResponse);
-          toast.error(
-            documentId
-              ? "Data tidak valid untuk edit kategori"
-              : "Data tidak valid untuk membuat kategori",
-          );
           break;
         default:
           setError(errorResponse);
-          toast.error(
-            errorResponse.message || "Terjadi kesalahan yang tidak diketahui",
-          );
       }
     } else if (err.message) {
       setErrorMessage(err.message);
-      toast.error(err.message);
     } else {
       setErrorMessage(err);
     }
@@ -63,13 +53,22 @@ const CategoryModal: FC<{
     form.setError(null);
     try {
       if (documentId) {
-        await dispatch(
-          updateCategory({ dokId: documentId, form: form.formData }),
-        ).unwrap();
-        toast.success("Berhasil Edit Kategori");
+        await toast.promise(
+          dispatch(
+            updateCategory({ dokId: documentId, form: form.formData }),
+          ).unwrap(),
+          {
+            loading: "...",
+            success: "Success Update",
+            error: "Failed Update",
+          },
+        );
       } else {
-        await dispatch(createCategory(form.formData)).unwrap();
-        toast.success("Berhasil Membuat Kategori");
+        await toast.promise(dispatch(createCategory(form.formData)).unwrap(), {
+          loading: "...",
+          success: "Success Save",
+          error: "Failed Save",
+        });
       }
       form.resetForm();
       onClose();

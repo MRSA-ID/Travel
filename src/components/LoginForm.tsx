@@ -5,6 +5,7 @@ import { CheckIcon, XCircleIcon } from "@heroicons/react/16/solid";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux-hooks";
 import { login } from "@/store/slices/authSlices";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 interface LoginFormData {
   identifier: string;
@@ -50,7 +51,13 @@ const LoginForm = () => {
   const handleSubmit = async () => {
     setError(null);
     try {
-      await dispatch(login(formData)).unwrap();
+      // const response = await dispatch(login(formData)).unwrap();
+      await toast.promise(dispatch(login(formData)).unwrap(), {
+        loading: "Sedang Memeriksa...",
+        success: "Berhasil login",
+        error: "Login Gagal, Silahkan Coba Kembali",
+      });
+      // toast.success("Login Berhasil");
     } catch (err: any) {
       if (err.error) {
         if (err.error?.status === 400) {
@@ -64,6 +71,8 @@ const LoginForm = () => {
       } else {
         setErrorMessage(err);
       }
+      // toast.error("Login Gagal, Silahkan Coba Kembali");
+      return err;
     } finally {
       setFormData({
         identifier: "",

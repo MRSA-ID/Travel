@@ -58,7 +58,6 @@ const CommentsPage = () => {
       }
     } else if (err.message) {
       setErrorMessage(err.message);
-      toast.error(err.message);
     } else {
       setErrorMessage(err);
     }
@@ -135,18 +134,19 @@ const CommentsPage = () => {
       });
     } catch (error) {
       console.error(error);
-      toast.error(error as string);
     }
   };
 
   const handleDeleteComments = async (id: string) => {
     try {
-      await dispatch(deletesComments(id));
-      toast.success("Berhasil Menghapus Kategori");
+      await toast.promise(dispatch(deletesComments(id)), {
+        loading: "...",
+        success: "Success Delete",
+        error: "Error Delete",
+      });
       await loadComments();
     } catch (err: any) {
       handleError(err, form.setError, form.setErrorMessage);
-      toast.error("Gagal Menghapus Kategori");
     }
   };
 

@@ -58,7 +58,6 @@ const CategoryPage = () => {
       }
     } else if (err.message) {
       setErrorMessage(err.message);
-      toast.error(err.message);
     } else {
       setErrorMessage(err);
     }
@@ -122,18 +121,19 @@ const CategoryPage = () => {
       });
     } catch (error) {
       console.error(error);
-      toast.error(error as string);
     }
   };
 
   const handleDeleteCategory = async (id: string) => {
     try {
-      await dispatch(deletesCategory(id));
-      toast.success("Berhasil Menghapus Kategori");
+      await toast.promise(dispatch(deletesCategory(id)), {
+        loading: "...",
+        success: "Success Delete",
+        error: "Error Delete",
+      });
       await loadCategory();
     } catch (err: any) {
       handleError(err, form.setError, form.setErrorMessage);
-      toast.error("Gagal Menghapus Kategori");
     }
   };
 

@@ -77,17 +77,12 @@ const ModalArticleDetail = ({
       switch (errorResponse.status) {
         case 400:
           setError(errorResponse);
-          toast.error("Terjadi Kesalahan Saat Mengirim Comment");
           break;
         default:
           setError(errorResponse);
-          toast.error(
-            errorResponse.message || "Terjadi kesalahan yang tidak diketahui",
-          );
       }
     } else if (err.message) {
       setErrorMessage(err.message);
-      toast.error(err.message);
     } else {
       setErrorMessage(err);
     }
@@ -102,8 +97,11 @@ const ModalArticleDetail = ({
     form.setError(null);
     setLoading(true);
     try {
-      await dispatch(createComments(form.formData)).unwrap();
-      toast.success("Berhasil Mengirim Comment");
+      await toast.promise(dispatch(createComments(form.formData)).unwrap(), {
+        loading: "...",
+        success: "Success",
+        error: "Failed",
+      });
       form.resetForm();
       // handleClose();
       setTimeout(() => {

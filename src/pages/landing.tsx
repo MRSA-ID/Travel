@@ -23,6 +23,7 @@ import { getParams } from "@/utils/helper";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import { INITIAL_PAGINATION_STATE } from "@/hooks/article/useForm";
+import { Toaster } from "react-hot-toast";
 
 const Landing = () => {
   const [search, setSearch] = useState("");
@@ -74,6 +75,28 @@ const Landing = () => {
       {/* tampilan ketika belum login */}
       <Navbar />
       <Hero />
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          duration: 3000,
+          success: {
+            style: {
+              background: "#4ade80",
+              color: "#fff",
+            },
+          },
+          error: {
+            style: {
+              background: "#f87171",
+              color: "#fff",
+            },
+          },
+        }}
+      />
       {/* section ini untuk pembatas menampilkan keseluruhan content dengan login  */}
       {!user ? (
         <div className="barrier bg-gradient-to-t from-white via-white to-transparent w-full h-[200px] absolute bottom-0 z-30 flex justify-center items-center">

@@ -62,7 +62,6 @@ const Articles = () => {
       }
     } else if (err.message) {
       setErrorMessage(err.message);
-      toast.error(err.message);
     } else {
       setErrorMessage(err);
     }
@@ -133,18 +132,19 @@ const Articles = () => {
       });
     } catch (error) {
       console.error(error);
-      toast.error(error as string);
     }
   };
 
   const handleDeleteArticle = async (id: string) => {
     try {
-      await dispatch(deletesArticle(id));
-      toast.success("Berhasil Menghapus Artikel");
+      await toast.promise(dispatch(deletesArticle(id)), {
+        loading: "...",
+        success: "Success Delete",
+        error: "Error Delete",
+      });
       await loadArticles();
     } catch (err: any) {
       handleError(err, form.setError, form.setErrorMessage);
-      toast.error("Gagal Menghapus Artikel");
     }
   };
 

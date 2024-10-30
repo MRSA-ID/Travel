@@ -45,7 +45,6 @@ const CommentModal: FC<{
     err: any,
     setError: ErrorSetter,
     setErrorMessage: MessageSetter,
-    documentId?: string,
   ) {
     if (err.error) {
       const errorResponse = err.error as ErrorResponse;
@@ -53,21 +52,12 @@ const CommentModal: FC<{
       switch (errorResponse.status) {
         case 400:
           setError(errorResponse);
-          toast.error(
-            documentId
-              ? "Data tidak valid untuk edit comment"
-              : "Data tidak valid untuk membuat comment",
-          );
           break;
         default:
           setError(errorResponse);
-          toast.error(
-            errorResponse.message || "Terjadi kesalahan yang tidak diketahui",
-          );
       }
     } else if (err.message) {
       setErrorMessage(err.message);
-      toast.error(err.message);
     } else {
       setErrorMessage(err);
     }
@@ -83,13 +73,22 @@ const CommentModal: FC<{
     form.setError(null);
     try {
       if (documentId) {
-        await dispatch(
-          updateComments({ dokId: documentId, form: form.formData }),
-        ).unwrap();
-        toast.success("Berhasil Edit Comment");
+        await toast.promise(
+          dispatch(
+            updateComments({ dokId: documentId, form: form.formData }),
+          ).unwrap(),
+          {
+            loading: "...",
+            success: "Success Update",
+            error: "Failed Update",
+          },
+        );
       } else {
-        await dispatch(createComments(form.formData)).unwrap();
-        toast.success("Berhasil Membuat Comment");
+        await toast.promise(dispatch(createComments(form.formData)).unwrap(), {
+          loading: "...",
+          success: "Success Save",
+          error: "Failed Save",
+        });
       }
       form.resetForm();
       onClose();
