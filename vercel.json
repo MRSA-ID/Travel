@@ -21,6 +21,10 @@
       "dest": "/favicon.ico"
     },
     {
+      "src": "/image/hero_image.jpg",
+      "dest": "/public/images/hero_image.jpg"
+    },
+    {
       "src": "/manifest.json",
       "dest": "/manifest.json"
     },
