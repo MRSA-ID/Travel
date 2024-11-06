@@ -83,6 +83,9 @@ const DashboardPage = () => {
   }, [dateNow]);
 
   useEffect(() => {
+    article.loadArticles();
+    comment.loadComments();
+    category.loadCategory();
     return () => {
       article.loadArticles();
       comment.loadComments();
